@@ -1,9 +1,18 @@
+const AssertPlus = require('assert-plus');
 var express = require('express');
+var assert = require('assert');
+var restify = require('restify-clients')
 var router = express.Router();
 
-/* GET users listing. */
+var client = restify.createJsonClient({
+    url: 'http://localhost:4000'
+});
+
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  client.get('/users', function(err, request, response, obj){
+    AssertPlus.ifError(err);
+    res.end(res.json(JSON.stringify(obj, null, 2)));
+  });
 });
 
 module.exports = router;
