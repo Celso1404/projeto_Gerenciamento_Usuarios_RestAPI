@@ -11,7 +11,7 @@ var client = restify.createJsonClient({
 router.get('/', function(req, res, next) {
   client.get('/users', function(err, request, response, obj){
     AssertPlus.ifError(err);
-    res.end(res.json(JSON.stringify(obj, null, 2)));
+    res.json(obj);
   });
 });
 
