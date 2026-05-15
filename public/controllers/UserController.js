@@ -139,7 +139,7 @@ class UserController {
 
     selectAll() {
         HttpRequest.get('/users').then(data => {
-            obj.users.forEach(dataUser=> {
+            data.users.forEach(dataUser=> {
                     let user = new User();
                     user.loadFromJSON(dataUser);
                     this.addLine(user);
@@ -159,7 +159,7 @@ class UserController {
 
             tr.innerHTML = 
                         `
-                        <td><img src="${dataUser.photo}" alt="User Image" class="img-circle img-sm"></td>
+                        <td><img src="${dataUser._photo}" alt="User Image" class="img-circle img-sm"></td>
                         <td>${dataUser.name}</td>
                         <td>${dataUser.email}</td>
                         <td>${(dataUser.admin) ? 'Sim' : 'Não'}</td>
