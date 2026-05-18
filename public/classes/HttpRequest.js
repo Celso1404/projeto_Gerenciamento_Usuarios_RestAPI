@@ -27,15 +27,21 @@ class HttpRequest {
             ajax.onload = event => {
                 let obj = {};    
                 
-                try {
-                    obj = JSON.parse(ajax.responseText);
-                } catch (e) {
-                    reject(e);
-                    console.error(e);
+                
+                if (ajax.status >= 200 && ajax.status < 300) {
+                    try {
+                        obj = JSON.parse(ajax.responseText);
+                        resolve(obj);
+                    } catch (e) {
+                        reject(e);
+                        console.error("Erro ao converter JSON:", e);
+                    }
+                } else {
+                    reject(new Error(`Erro HTTP: ${ajax.status} - ${ajax.statusText}`));
                 }
-                resolve(obj);
             };
-        ajax.send();   
+                    ajax.setRequestHeader('Content-Type', 'application/json');
+                    ajax.send(JSON.stringify(params));   
         });
     }
 }
